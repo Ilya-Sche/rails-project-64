@@ -8,6 +8,13 @@ gem "propshaft"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
+gem "rubocop-rails"
+gem "slim_lint"
+gem "stackprof"
+gem "sentry-ruby"
+gem "sentry-rails"
+gem "slim"
+gem 'minitest-power_assert'
 # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
 gem "jsbundling-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
@@ -63,5 +70,6 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
+  gem "faker"
   gem "selenium-webdriver"
 end

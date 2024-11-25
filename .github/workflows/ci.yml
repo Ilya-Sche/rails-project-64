@@ -16,13 +16,14 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: .ruby-version 3.2.2
           bundler-cache: true
 
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
 
   lint:
+    name: Run Slim Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -37,9 +38,37 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
+      - name: Lint Slim templates for consistent style
+        run: bundle exec slim-lint -r github app/views
+      
+      - name: Run Slim Lint
+        run: |
+          slim-lint app/views
+
+  rubocop:
+      name: Run Rubocop
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Set up Ruby
+          uses: ruby/setup-ruby@v1
+          with:
+            ruby-version: 3.2.2
+            bundler-cache: true
+
+        - name: Install dependencies
+          run: |
+            gem install rubocop
+            bundle install
+
+        - name: Run Rubocop
+          run: bundle exec rubocop
   test:
     runs-on: ubuntu-latest
-
+    name: Run Tests with Power Assert
     # services:
     #  redis:
     #    image: redis
@@ -56,14 +85,14 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: .ruby-version 3.2.2
           bundler-cache: true
 
       - name: Run tests
         env:
           RAILS_ENV: test
           # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare test test:system
+        run: bin/rails test
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4

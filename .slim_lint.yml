@@ -1,0 +1,6 @@
+rails: true
+tabs: true
+indentation: 2
+no_trailing_whitespace: true
+max_line_length: 120
+no_consecutive_blank_lines: true

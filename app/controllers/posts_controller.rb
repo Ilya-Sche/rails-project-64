@@ -51,7 +51,6 @@ class PostsController < ApplicationController
     @post.destroy
     respond_to do |format|
       format.html { redirect_to posts_url, notice: I18n.t('flash.destroy', model: @post.class.name) }
-      format.turbo_stream { render turbo_stream: turbo_stream.remove(@post) }
     end
   end
 

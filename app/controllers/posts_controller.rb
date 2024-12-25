@@ -10,6 +10,9 @@ class PostsController < ApplicationController
   def show
     @post = set_post
     @comments = @post.comments.includes(:user).arrange
+
+    return unless user_signed_in?
+
     @liked_by_current_user = @post.likes.exists?(user_id: current_user.id)
     @comment = PostComment.new
   end

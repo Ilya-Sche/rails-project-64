@@ -1,4 +1,4 @@
-= render @category
+= render 'category', category: @category
 
 - if @category.posts.any?
   ul.list-group

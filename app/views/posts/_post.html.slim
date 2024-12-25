@@ -1,27 +1,27 @@
 h1.text-center.display-3.text-body-emphasis
-  = @post.title
+  = post.title
 
-#dom_id(@post)
+#dom_id(post)
   .row
     .col-12
       p.text-muted{style: font-size: 0.9rem;}
-        = @post.body
+        = post.body
 
   .row
     .col-12.d-flex.justify-content-between
       .text-muted{style: font-size: 0.8rem;}
         strong = "#{t('post.author')} :"
-        = @post.creator.email
+        = post.creator.email
 
       .text-muted{style: font-size: 0.8rem;}
         strong = "#{t('post.likes')} :"
-        = @post.liked_users.count
+        = post.liked_users.count
 
     - if @liked_by_current_user
-      = button_to post_like_path(@post), method: :delete, class: 'link-dark' do
+      = button_to post_like_path(post), method: :delete, class: 'link-dark' do
         = tag.i(class: 'bi bi-hand-thumbs-up-fill text-white')
     - else
-      = button_to post_likes_path(@post), method: :post, class: 'link-dark' do
+      = button_to post_likes_path(post), method: :post, class: 'link-dark' do
         = tag.i(class: 'bi bi-hand-thumbs-up')
 
 = render 'post_comments/form', post: @post, comment: @comment

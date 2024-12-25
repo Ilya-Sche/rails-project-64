@@ -30,6 +30,7 @@
 en:
   hello: "Hello world"
   post:
+    posts: "Posts"
     editing: "Editing post"
     edit: "Edit this post"
     new: "New post"
@@ -60,6 +61,7 @@ en:
     comments: "Comments"
 
   category:
+    categories: "Categories"
     editing: "Editing Category"
     edit: "Edit this category"
     new: "New category"

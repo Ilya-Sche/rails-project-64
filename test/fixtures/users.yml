@@ -6,6 +6,8 @@
 #
 one:
   email: user_1@example.com
+  password: password1
 
 two:
   email: user_2@example.com
+  password: password2

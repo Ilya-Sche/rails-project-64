@@ -22,13 +22,15 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should create post' do
-    assert_difference('Post.count') do
-      post posts_url,
-           params: { post: { body: @post.body, category_id: @post.category_id, title: @post.title,
-                             creator_id: @post.creator_id } }
+    attrs = { title: Faker::Lorem.sentence, body: Faker::Lorem.paragraph, category_id: @category.id }
+
+    assert_difference('Post.count', 1) do
+      post posts_url, params: { post: attrs }
     end
 
-    assert_redirected_to post_url(Post.last)
+    created_post = Post.find_by(title: attrs[:title], body: attrs[:body], category_id: attrs[:category_id])
+    assert_not_nil created_post
+    assert_redirected_to post_url(created_post)
   end
 
   test 'should show post' do
@@ -42,17 +44,23 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should update post' do
-    patch post_url(@post),
-          params: { post: { body: @post.body, category_id: @post.category_id, title: @post.title,
-                            creator_id: @post.creator_id } }
+    new_title = Faker::Lorem.sentence
+    new_body = Faker::Lorem.paragraph
+
+    patch post_url(@post), params: { post: { title: new_title, body: new_body, category_id: @post.category_id } }
+
     assert_redirected_to post_url(@post)
+
+    @post.reload
+    assert_equal new_title, @post.title
+    assert_equal new_body, @post.body
   end
 
   test 'should destroy post' do
     assert_difference('Post.count', -1) do
       delete post_url(@post)
     end
-
+    assert_nil Post.find_by(id: @post.id)
     assert_redirected_to posts_url
   end
 end

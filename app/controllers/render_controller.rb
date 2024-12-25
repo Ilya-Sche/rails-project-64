@@ -2,7 +2,6 @@
 
 class RenderController < ApplicationController
   def index
-    @categories = Category.all
-    @user = current_user
+    @categories = Category.includes(:posts).all
   end
 end

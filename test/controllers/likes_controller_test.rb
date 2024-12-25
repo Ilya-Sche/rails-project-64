@@ -9,7 +9,6 @@ class LikesControllerTest < ActionDispatch::IntegrationTest
     @post = posts(:one)
     @user = users(:one)
     @post.liked_users = []
-    @like = PostLike.create(id: '1')
     sign_in @user
   end
 
@@ -22,8 +21,9 @@ class LikesControllerTest < ActionDispatch::IntegrationTest
 
   test 'should remove like from post' do
     @post.liked_users << @user
+
     assert_difference('@post.liked_users.count', -1) do
-      delete post_like_url(@post.id, @like.id)
+      delete post_like_url(@post, @user)
     end
     assert_redirected_to @post
   end

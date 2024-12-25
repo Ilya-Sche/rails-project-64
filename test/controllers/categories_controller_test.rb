@@ -18,11 +18,15 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should create category' do
-    assert_difference('Category.count') do
-      post categories_url, params: { category: { name: @category.name } }
+    attrs = { name: Faker::Commerce.department }
+
+    assert_difference('Category.count', 1) do
+      post categories_url, params: { category: attrs }
     end
 
-    assert_redirected_to category_url(Category.last)
+    created_category = Category.find_by(attrs)
+    assert_not_nil created_category
+    assert_redirected_to category_url(created_category)
   end
 
   test 'should show category' do

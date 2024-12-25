@@ -1,0 +1,10 @@
+h2 = t('comment.comments')
+
+p = "#{@post.comments.count} #{t('comment.comments')}"
+- if @post.creator == current_user
+  = simple_form_for [@post, @comment], url: post_comments_path(@post) do |f|
+    = f.input :content, as: :text, placeholder: t('comment.add'), input_html: { rows: 4 }, label: false
+    = f.button :submit, t('comment.submit'), class: 'btn btn-success mt-3'
+
+- @comments.each do |parent_comment, children_comments|
+  = render 'comment', comment: parent_comment, level: 0, children_comments: children_comments

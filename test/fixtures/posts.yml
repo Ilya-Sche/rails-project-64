@@ -5,9 +5,11 @@ one:
   body: MyText
   creator: one
   category: one
+  creator_id: 1
 
 two:
   title: MyString
   body: MyText
   creator: two
   category: two
+  creator_id: 2

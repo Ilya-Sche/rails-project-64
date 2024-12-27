@@ -24,4 +24,14 @@ h1.text-center.display-3.text-body-emphasis
       = button_to post_likes_path(post), method: :post, class: 'link-dark' do
         = tag.i(class: 'bi bi-hand-thumbs-up')
 
-= render 'post_comments/form', post: @post, comment: @comment
+p = "#{@comments.count} #{t('comment.comments')}"
+
+- @comments.each do |parent_comment, children|
+  = render 'comment', comment: parent_comment
+    - children.each do |child_comment|
+      = render 'comment', comment: child_comment
+
+- if user_signed_in?
+  = simple_form_for [@post, @comment], url: post_comments_path(@post) do |f|
+    = f.input :content, as: :text, placeholder: t('comment.add'), input_html: { rows: 3 }, label: false
+    = f.button :submit, t('comment.submit'), class: 'btn btn-success'

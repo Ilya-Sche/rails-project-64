@@ -6,8 +6,7 @@
 #
 one:
   email: user_1@example.com
-  password: password1
-
+  encrypted_password: $2a$12$24abel7fiEdyrQiL/1Mb7u0LejBM9HTahJmr3aAP2RHgCJMaKWYx2
 two:
   email: user_2@example.com
-  password: password2
+  encrypted_password: $2a$12$xowW7xiZ1jqrY.YW55LMy.mD9by3MGByma/9wkTlIboR6tP7n9gaS

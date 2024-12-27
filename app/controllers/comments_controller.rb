@@ -7,10 +7,6 @@ class CommentsController < ApplicationController
     @comment = @post.comments.build(comment_params)
     @comment.user = current_user
 
-    if params[:parent_id].present?
-      @parent_comment = @post.comments.find(params[:parent_id])
-      @comment.parent = @parent_comment
-    end
     if @comment.save
       redirect_to post_path(@post), notice: I18n.t('comment.save')
     else

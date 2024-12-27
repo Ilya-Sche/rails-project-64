@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :categories, only: %i[index show new create]
   devise_for :users
   resources :posts do
-    resources :likes, controller: 'likes', only: %i[create destroy]
+    resources :likes, only: %i[create destroy]
     resources :comments, only: %i[create]
   end
 

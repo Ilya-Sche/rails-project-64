@@ -46,6 +46,7 @@ en:
     published_by: "Published by"
     ago: "ago"
     author: "Author"
+    attempt_edit: "You have no rights for this action!"
   comment:
     edit: "Edit this comment"
     new: "New comment"

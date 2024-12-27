@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
 class PostsController < ApplicationController
-  after_action :authorize_post, only: %i[edit update destroy]
 
   def index
     @posts = Post.includes(:creator).order(created_at: :desc).all
   end
 
   def show
-    @post = set_post
+    @post = Post.find(params[:id])
     @comments = @post.comments.includes(:user).arrange
 
     return unless user_signed_in?
@@ -19,12 +18,14 @@ class PostsController < ApplicationController
 
   def new
     authenticate_user!
-    @post = current_user.posts.build
+    @post = Post.new
     @categories = Category.all
   end
 
   def edit
-    @post = set_post
+    authenticate_user!
+    @post = Post.find(params[:id])
+    authorize_post
   end
 
   def create
@@ -38,7 +39,9 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post = set_post
+    authenticate_user!
+    @post = Post.find(params[:id])
+    authorize_post
     if @post.update(post_params)
       redirect_to @post, notice: I18n.t('flash.update', model: @post.class.name)
     else
@@ -47,21 +50,20 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = set_post
+    authenticate_user!
+    @post = Post.find(params[:id])
+    authorize_post
     @post.destroy
     redirect_to posts_url, notice: I18n.t('flash.destroy', model: @post.class.name)
   end
 
   private
 
-  def set_post
-    @post = Post.find(params[:id])
-  end
-
   def authorize_post
-    return if @post.creator_id == current_user.id
+    if @post.creator_id != current_user.id
 
-    redirect_to posts_url
+    redirect_to posts_url, alert: I18n.t('post.attempt_edit')
+    end
   end
 
   def post_params

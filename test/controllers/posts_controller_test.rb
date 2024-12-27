@@ -28,7 +28,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
       post posts_url, params: { post: attrs }
     end
 
-    created_post = Post.find_by(title: attrs[:title], body: attrs[:body], category_id: attrs[:category_id])
+    created_post = Post.find_by(attrs.merge(user_id: @user.id))
     assert_not_nil created_post
     assert_redirected_to post_url(created_post)
   end

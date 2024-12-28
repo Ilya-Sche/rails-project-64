@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class PostsController < ApplicationController
-
   def index
     @posts = Post.includes(:creator).order(created_at: :desc).all
   end
@@ -60,10 +59,9 @@ class PostsController < ApplicationController
   private
 
   def authorize_post
-    if @post.creator_id != current_user.id
+    return unless @post.creator_id != current_user.id
 
     redirect_to posts_url, alert: I18n.t('post.attempt_edit')
-    end
   end
 
   def post_params

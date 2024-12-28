@@ -8,13 +8,13 @@
         strong = "#{t('post.author')} :"
         = comment.user.email
 
+      - if user_signed_in?
+        = simple_form_for [post, post.comments.new], method: post, url: post_comments_path(post) do |f|
+          = f.input :parent_id, as: :hidden, input_html: { value: comment.id }
+          = f.input :content, as: :text, placeholder: t('comment.reply'), input_html: { rows: 3 }, label: false
+          = f.button :submit, t('comment.reply_submit'), class: 'btn btn-success'
+
       - if comment.children.any?
         .children
-          - comment.children.each do |child_comment|
-            = render 'comment', comment: child_comment
-
-      - if user_signed_in?
-        = simple_form_for [@post, comment], url: post_comments_path(@post) do |f|
-          = f.input :content, as: :text, placeholder: t('comment.add'), input_html: { rows: 3 }, label: false
-          = f.input :parent_id, as: :hidden, value: comment.id
-          = f.button :submit, t('comment.submit'), class: 'btn btn-success'
+          - comment.children.each_with_index do |child_comment, index|
+            = render 'comment', comment: child_comment, post: @post, level: index + 1

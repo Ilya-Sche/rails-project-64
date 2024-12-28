@@ -17,21 +17,19 @@ h1.text-center.display-3.text-body-emphasis
         strong = "#{t('post.likes')} :"
         = post.liked_users.count
 
-    - if @liked_by_current_user
+    - if liked_by_current_user
       = button_to post_like_path(post), method: :delete, class: 'link-dark' do
         = tag.i(class: 'bi bi-hand-thumbs-up-fill text-white')
     - else
       = button_to post_likes_path(post), method: :post, class: 'link-dark' do
         = tag.i(class: 'bi bi-hand-thumbs-up')
 
-p = "#{@comments.count} #{t('comment.comments')}"
+    p = "#{comments.count} #{t('comment.comments')}"
 
-- @comments.each do |parent_comment, children|
-  = render 'comment', comment: parent_comment
-    - children.each do |child_comment|
-      = render 'comment', comment: child_comment
+    - comments.each do |comment, children|
+      = render 'comment', comment:, children:, post: @post
 
-- if user_signed_in?
-  = simple_form_for [@post, @comment], url: post_comments_path(@post) do |f|
-    = f.input :content, as: :text, placeholder: t('comment.add'), input_html: { rows: 3 }, label: false
-    = f.button :submit, t('comment.submit'), class: 'btn btn-success'
+    - if user_signed_in?
+      = simple_form_for [post, comment], url: post_comments_path(post) do |f|
+        = f.input :content, as: :text, placeholder: t('comment.add'), input_html: { rows: 3 }, label: false
+        = f.button :submit, t('comment.submit'), class: 'btn btn-success'

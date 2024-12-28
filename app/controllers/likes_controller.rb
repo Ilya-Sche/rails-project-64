@@ -7,7 +7,7 @@ class LikesController < ApplicationController
     @post = Post.find(params[:post_id])
 
     @like = @post.likes.find_or_create_by(user: current_user)
-    
+
     redirect_to @post
   end
 

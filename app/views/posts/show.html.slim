@@ -2,7 +2,7 @@
   .p-4.text-center
     .py-4 style='color: green'
 
-= render 'post', post: @post
+= render 'post', post: @post, comment: @comment, comments: @comments, liked_by_current_user: @liked_by_current_user
 
 div
   - if @post.creator == current_user
